@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的长征路生成器</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #b22222;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #b22222;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #8b0000;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff8f8;
+        }
+        .spirit {
+            font-weight: bold;
+            color: #b22222;
+            font-size: 18px;
+        }
+        .story {
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+        .inspiration {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        .action {
+            margin-top: 10px;
+            color: #006400;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>我的长征路生成器</h1>
+        <p>输入你的“行军档案”，生成专属“精神锦囊”</p >
+
+        <label>专业/身份（如：计算机、法学、医学、学生、创业者）</label>
+        <input type="text" id="major" placeholder="请输入你的专业或身份">
+
+        <label>当前困境（如：迷茫无方向、项目受阻、条件艰苦）</label>
+        <input type="text" id="difficulty" placeholder="请输入你当前的困境">
+
+        <label>未来目标（如：技术突破、维护正义、救死扶伤）</label>
+        <input type="text" id="goal" placeholder="请输入你的未来目标">
+
+        <button onclick="generate()">生成我的长征路</button>
+
+        <div id="result" class="result" style="display:none;">
+            <div class="spirit" id="spirit"></div>
+            <div class="story" id="story"></div>
+            <div class="inspiration" id="inspiration"></div>
+            <div class="action" id="action"></div>
+        </div>
+    </div>
+
+    <script>
+        // 你的核心内容库（JavaScript 数据结构）
+        const spiritLibrary = [{"spirit": "信念坚定", "keywords": ["迷茫", "方向缺失", "怀疑选择", "想要放弃"], "story": "当年红二十五军在极度艰难的情况下，依然坚持北上抗日。就像现在的年轻人重走红二十五军长征路时感悟的那样，“长征路上的每块界碑都记得他们的名字”，先辈们在篝火旁流转的故事，正是信仰扎根的过程。无论环境多么恶劣，心中的红星始终指引方向。", "inspiration": "一代人有一代人的长征路。当年的红军在迷茫中靠信仰突围，今天的你在困惑中也要用初心导航。请相信，只要方向正确，就不怕路途遥远。", "action": "建议你去了解一项关于红色遗址保护的法律法规，或参与一次社区志愿服务。"}, {"spirit": "勇当先锋", "keywords": ["计算机", "创新", "创业", "技术突破", "竞争压力"], "story": "红二十五军作为长征中的先锋部队，不仅军事上骁勇善战，更在思想上敢为人先。比如他们在过回民村前专门制定“三大禁令、四项注意”，为后来的民族政策打下基础；又如新时代的中南大师生发挥双一流学科优势，将红色文化资源的保护纳入法治化轨道，这都是开拓创新的精神。", "inspiration": "先锋不仅仅是冲在最前面，更是敢于制定新规则、探索新领域。像当年的红军制定‘三大禁令’一样，用你的专业知识去开辟新的赛道，做新时代的破局者。", "action": "建议你去了解一项关于红色遗址保护的法律法规，或参与一次社区志愿服务。"}, {"spirit": "艰苦奋斗", "keywords": ["条件受限", "学业繁重", "体力透支", "考研压力", "资金不足", "工作环境差"], "story": "当年红军经过“苦瘠甲天下”的西海固地区，物资极度匮乏。老支书曾回忆，红军教当地回民用马铃薯做成“红军粉”充饥。而在新时代，该校学生赴西海固支教，建立“阳光书库”，正是在这种艰苦环境中磨砺出的坚韧。", "inspiration": "当年的红军能把马铃薯变成希望的‘红军粉’，今天的你也一定能把眼前的困难化作成长的养料。走出大山不是为了逃离，而是为了更好地回来建设，知识就是你手里最可靠的‘开路机’。", "action": "建议你去了解一项关于红色遗址保护的法律法规，或参与一次社区志愿服务。"}, {"spirit": "无私奉献", "keywords": ["医学", "教育", "志愿服务", "帮助他人", "付出没有回报", "投身公益"], "story": "红二十五军有着深厚的为民情怀。这种精神在今天得到了完美的延续：从当年筹款建校，到如今的支教、义诊、扶贫，一代代青年用行动温暖社会。你的每一次善意，都是在续写属于这个时代的‘红星照耀中国’。", "inspiration": "奉献不是单向的付出，而是心灵的共鸣。就像当年的红军播撒火种，今天的你也在用行动温暖社会。你的每一次善意，都是在续写属于这个时代的‘红星照耀中国’。", "action": "建议你去了解一项关于红色遗址保护的法律法规，或参与一次社区志愿服务。"}];
+
+        function generate() {
+            const major = document.getElementById('major').value;
+            const difficulty = document.getElementById('difficulty').value;
+            const goal = document.getElementById('goal').value;
+
+            // 合并所有输入
+            const inputText = major + " " + difficulty + " " + goal;
+
+            // 匹配最相关的精神
+            let bestMatch = null;
+            let maxMatches = 0;
+
+            for (const item of spiritLibrary) {
+                let matches = 0;
+                for (const keyword of item.keywords) {
+                    if (inputText.includes(keyword)) {
+                        matches++;
+                    }
+                }
+                if (matches > maxMatches) {
+                    maxMatches = matches;
+                    bestMatch = item;
+                }
+            }
+
+            // 如果没有匹配到，默认显示“信念坚定”
+            if (!bestMatch) {
+                bestMatch = spiritLibrary[0];
+            }
+
+            // 显示结果
+            document.getElementById('spirit').innerText = "【" + bestMatch.spirit + "】";
+            document.getElementById('story').innerText = "当年的他们：" + bestMatch.story;
+            document.getElementById('inspiration').innerText = "今天的你：" + bestMatch.inspiration;
+            document.getElementById('action').innerText = "行动建议：" + bestMatch.action;
+
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
